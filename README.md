@@ -51,3 +51,9 @@ Astuces pour stabiliser les chiffres :
 
 ## Résultats
 Le programme affiche un speedup estimé entre les deux versions. Pour des images petites, le surcoût de parallélisation peut dominer; pour des images grandes (HD/4K), le gain est généralement net.
+
+## Remap de pixels (sans changer les couleurs)
+- Place les pixels de l'image source pour matcher la distribution de couleurs de l'image cible.
+- Pas de modification de valeurs : seules les positions changent.
+- Pré-requis : une image `target.jpg` avec les mêmes dimensions que `image.jpg`.
+- Le remap est déclenché automatiquement si `target.jpg` existe, et produit `remap.png`.

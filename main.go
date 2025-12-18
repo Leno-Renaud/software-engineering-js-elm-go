@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"runtime"
 	"time"
 )
@@ -42,6 +43,31 @@ func main() {
 	fmt.Printf("Speedup : %.2fx\n", speedup)
 	fmt.Printf("Gain de temps : %.2f%%\n", savings)
 	fmt.Printf("Différence : %v\n\n", duration1-duration2)
+
+	// ============================================
+	// Remap de pixels (source -> cible) si une cible est disponible
+	// ============================================
+	targetPath := "target.jpg"
+	if _, err := os.Stat(targetPath); err == nil {
+		fmt.Printf("=== REMAP vers %s (sans changer les pixels, seulement leur position) ===\n", targetPath)
+		timg := loadImage(targetPath)
+		tb := timg.Bounds()
+		if tb.Max.X != width || tb.Max.Y != height {
+			fmt.Printf("Dimensions différentes (%dx%d vs %dx%d), remap ignoré.\n\n", tb.Max.X, tb.Max.Y, width, height)
+		} else {
+			srcMatrix := extractPixels(m, width, height)
+			tgtMatrix := extractPixels(timg, width, height)
+			startRemap := time.Now()
+			remapped := remapPixels(srcMatrix, tgtMatrix, 16) // 16 niveaux par canal → 4096 bins
+			fmt.Printf("Remap terminé en %v\n", time.Since(startRemap))
+			outRemap := pixelsToImage(remapped)
+			outName := "remap.png"
+			saveImage(outRemap, outName)
+			fmt.Printf("Image remappée : %s\n\n", outName)
+		}
+	} else {
+		fmt.Println("Aucune cible target.jpg trouvée, remap ignoré.")
+	}
 
 	// Utiliser la version parallèle pour le résultat final
 	rgbMatrix := rgbMatrix2
