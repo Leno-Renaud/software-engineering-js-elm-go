@@ -58,13 +58,33 @@ func main() {
 		} else {
 			srcMatrix := extractPixels(m, width, height)
 			tgtMatrix := extractPixels(timg, width, height)
-			startRemap := time.Now()
-			remapped := remapPixels(srcMatrix, tgtMatrix, 16) // 16 niveaux par canal → 4096 bins
-			fmt.Printf("Remap terminé en %v\n", time.Since(startRemap))
-			outRemap := pixelsToImage(remapped)
-			outName := "remap.png"
-			saveImage(outRemap, outName)
-			fmt.Printf("Image remappée : %s\n\n", outName)
+
+			// Séquentiel
+			fmt.Println("=== REMAP (Séquentiel) ===")
+			startSeq := time.Now()
+			remappedSeq := remapPixels(srcMatrix, tgtMatrix, 16) // 16 niveaux par canal → 4096 bins
+			durSeq := time.Since(startSeq)
+			fmt.Printf("Remap séquentiel terminé en %v\n", durSeq)
+			outSeq := pixelsToImage(remappedSeq)
+			saveImage(outSeq, "remap_seq.png")
+			fmt.Println("Image remappée (séquentielle) : remap_seq.png")
+
+			// Parallèle
+			fmt.Println("=== REMAP (Parallèle) ===")
+			startPar := time.Now()
+			remappedPar := remapPixelsParallel(srcMatrix, tgtMatrix, 16)
+			durPar := time.Since(startPar)
+			fmt.Printf("Remap parallèle terminé en %v\n", durPar)
+			outPar := pixelsToImage(remappedPar)
+			saveImage(outPar, "remap_par.png")
+			fmt.Println("Image remappée (parallèle) : remap_par.png")
+
+			// Comparaison
+			speedup := float64(durSeq) / float64(durPar)
+			savings := (1 - float64(durPar)/float64(durSeq)) * 100
+			fmt.Printf("Speedup : %.2fx\n", speedup)
+			fmt.Printf("Gain de temps : %.2f%%\n", savings)
+			fmt.Printf("Différence : %v\n\n", durSeq-durPar)
 		}
 	} else {
 		fmt.Println("Aucune cible target.jpg trouvée, remap ignoré.")
