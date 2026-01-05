@@ -74,3 +74,80 @@ func blackWhiteParallel(rgbMatrix [][]Pixel, width, height int) [][]Pixel {
 	wg.Wait()
 	return rgbMatrix
 }
+
+// downscalePixels réduit la définition sans changer la taille (pixelisation)
+func downscalePixelsParallel(rgbMatrix [][]Pixel, width, height, factor int) [][]Pixel {
+	if factor <= 1 {
+		return rgbMatrix
+	}
+	if len(rgbMatrix) == 0 || len(rgbMatrix[0]) == 0 {
+		return rgbMatrix
+	}
+
+	result := make([][]Pixel, height)
+	for y := 0; y < height; y++ {
+		result[y] = make([]Pixel, width)
+	}
+
+	// Diviser le travail par lignes
+	numGoroutines := runtime.NumCPU()
+	rowsPerGoroutine := (height + numGoroutines - 1) / numGoroutines
+
+	var wg sync.WaitGroup
+	wg.Add(numGoroutines)
+
+	for g := 0; g < numGoroutines; g++ {
+		go func(goroutineID int) {
+			defer wg.Done()
+
+			startRow := goroutineID * rowsPerGoroutine
+			endRow := (goroutineID + 1) * rowsPerGoroutine
+			if endRow > height {
+				endRow = height
+			}
+
+			// Traiter les blocs dans cette tranche de lignes
+			for by := startRow; by < endRow; by += factor {
+				for bx := 0; bx < width; bx += factor {
+					var sumR, sumG, sumB uint64
+					count := 0
+					maxY := by + factor
+					if maxY > height {
+						maxY = height
+					}
+					maxX := bx + factor
+					if maxX > width {
+						maxX = width
+					}
+
+					// Calculer la moyenne du bloc
+					for y := by; y < maxY; y++ {
+						for x := bx; x < maxX; x++ {
+							p := rgbMatrix[y][x]
+							sumR += uint64(p.R)
+							sumG += uint64(p.G)
+							sumB += uint64(p.B)
+							count++
+						}
+					}
+
+					avg := Pixel{
+						R: uint16(sumR / uint64(count)),
+						G: uint16(sumG / uint64(count)),
+						B: uint16(sumB / uint64(count)),
+					}
+
+					// Remplir le bloc avec la moyenne
+					for y := by; y < maxY; y++ {
+						for x := bx; x < maxX; x++ {
+							result[y][x] = avg
+						}
+					}
+				}
+			}
+		}(g)
+	}
+
+	wg.Wait()
+	return result
+}
