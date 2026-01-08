@@ -17,7 +17,7 @@ func main() {
 	io.Copy(conn, in)                // envoie l'image
 	conn.(*net.TCPConn).CloseWrite() // signale la fin de l'envoi
 
-	out, _ := os.Create("out.png")
+	out, _ := os.Create("out.jpg")
 	defer out.Close()
 
 	io.Copy(out, conn) // reçoit l'image renvoyée

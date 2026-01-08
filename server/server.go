@@ -1,7 +1,11 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+	"image"
+	"image/jpeg"
+	_ "image/png"
 	"io"
 	"net"
 )
@@ -13,8 +17,18 @@ func main() {
 		conn, _ := ln.Accept()
 		go func(c net.Conn) {
 			defer c.Close()
-			buf, _ := io.ReadAll(c)
-			c.Write(buf)
+			buf, err := io.ReadAll(c)
+			if err != nil {
+				return
+			}
+			img, _, err := image.Decode(bytes.NewReader(buf))
+			if err != nil {
+				return
+			}
+			b := img.Bounds()
+			w, h := b.Max.X, b.Max.Y
+			bw := blackWhiteParallel(extractPixelsParallel(img, w, h), w, h)
+			jpeg.Encode(c, pixelsToImage(bw), nil)
 			fmt.Println("Requête complétée")
 		}(conn)
 	}
