@@ -253,7 +253,7 @@ viewRow model rowIndex =
         (List.indexedMap (viewCell model.targetWord isSubmitted word) chars)
 
 
-padList : Int -> a -> List a -> List a
+padList : Int -> a -> List a -> List a -- Fonction utilitaire pour compléter une liste à une certaine longueur
 padList n default list =
     let
         len = List.length list
