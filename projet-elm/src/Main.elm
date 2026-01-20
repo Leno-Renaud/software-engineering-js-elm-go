@@ -26,10 +26,7 @@ main = Browser.element
 -- MODEL
 
 
-type GameState    -- Déclaration du type GameState
-    = Playing
-    | Won
-    | Lost
+type GameState = Playing | Won | Lost -- Déclaration du type GameState
 
 
 type alias Model =
