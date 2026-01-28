@@ -1,0 +1,220 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "players": [
+        "Lucas",
+        "Leno",
+        "Hector"
+      ],
+      "events": [
+        {
+          "type": "draw",
+          "player": "Lucas",
+          "card": {
+            "type": "number",
+            "value": 5
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Leno",
+          "card": {
+            "type": "number",
+            "value": 10
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Hector",
+          "card": {
+            "type": "second_chance"
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Lucas",
+          "card": {
+            "type": "number",
+            "value": 10
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Leno",
+          "card": {
+            "type": "bonus",
+            "value": 7
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Hector",
+          "card": {
+            "type": "number",
+            "value": 11
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Lucas",
+          "card": {
+            "type": "bonus",
+            "value": 8
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Leno",
+          "card": {
+            "type": "number",
+            "value": 9
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Hector",
+          "card": {
+            "type": "number",
+            "value": 10
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Lucas",
+          "card": {
+            "type": "number",
+            "value": 9
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Leno",
+          "card": {
+            "type": "number",
+            "value": 12
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Hector",
+          "card": {
+            "type": "second_chance"
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Lucas",
+          "card": {
+            "type": "freeze"
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Leno",
+          "card": {
+            "type": "bonus",
+            "value": 2
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Hector",
+          "card": {
+            "type": "number",
+            "value": 5
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Leno",
+          "card": {
+            "type": "freeze"
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Hector",
+          "card": {
+            "type": "number",
+            "value": 12
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Hector",
+          "card": {
+            "type": "number",
+            "value": 11
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Hector",
+          "card": {
+            "type": "multiplier"
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Hector",
+          "card": {
+            "type": "flip_three"
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Hector",
+          "card": {
+            "type": "number",
+            "value": 7
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Hector",
+          "card": {
+            "type": "flip_three"
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Hector",
+          "card": {
+            "type": "number",
+            "value": 12
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Hector",
+          "card": {
+            "type": "number",
+            "value": 12
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Hector",
+          "card": {
+            "type": "number",
+            "value": 7
+          }
+        },
+        {
+          "type": "draw",
+          "player": "Hector",
+          "card": {
+            "type": "number",
+            "value": 7
+          }
+        }
+      ],
+      "scores": {
+        "Lucas": 0,
+        "Leno": 0,
+        "Hector": 0
+      }
+    }
+  ]
+}

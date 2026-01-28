@@ -1,4 +1,4 @@
-import Player from "./palyer.js";
+import Player from "./player.js";
 import Game from "./game.js";
 import { ask, closePrompt } from "./prompt.js";
 
