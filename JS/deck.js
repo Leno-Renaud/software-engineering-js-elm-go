@@ -16,9 +16,9 @@ export default class Deck {
     }
 
     // actions (quantités approximatives raisonnables)
-    for (let i = 0; i < 5; i++) this.cards.push({ type: CARD_TYPES.FREEZE });
-    for (let i = 0; i < 5; i++) this.cards.push({ type: CARD_TYPES.FLIP_THREE });
-    for (let i = 0; i < 5; i++) this.cards.push({ type: CARD_TYPES.SECOND_CHANCE });
+    for (let i = 0; i < 3; i++) this.cards.push({ type: CARD_TYPES.FREEZE });
+    for (let i = 0; i < 3; i++) this.cards.push({ type: CARD_TYPES.FLIP_THREE });
+    for (let i = 0; i < 3; i++) this.cards.push({ type: CARD_TYPES.SECOND_CHANCE });
 
     // bonus +2 à +10
     for (let v = 2; v <= 10; v++) {
