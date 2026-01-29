@@ -130,7 +130,7 @@ handleKey key model =
 
     else if String.length key == 1 && String.all Char.isAlpha key then-- Si la touche est une lettre
         if String.length model.currentGuess < 5 then
-            ( { model | currentGuess = model.currentGuess ++ String.toUpper key }, Cmd.none )
+            ( { model | currentGuess = model.currentGuess ++ String.toUpper key }, Cmd.none ) -- Ajout de la lettre à la supposition actuelle
 
         else
             ( model, Cmd.none )
