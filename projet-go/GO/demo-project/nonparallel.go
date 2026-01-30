@@ -163,11 +163,11 @@ func downscalePixels(rgbMatrix [][]Pixel, width, height, factor int) [][]Pixel {
 	return result
 }
 
-// Remap pixels from a source image to match the color distribution of a target image
-// without changing pixel values—only their positions. Images must share dimensions.
+// ##########################
+// -- Section Remap Pixels --
+// ##########################
 
-// quantizePixel maps a Pixel to a bin index using `levels` discrete values per channel.
-// Example: levels=16 -> 4096 bins.
+// quantizePixel retourne l'index du bin pour un pixel donné.
 func quantizePixel(p Pixel, levels int) int {
 	step := 65536 / levels
 	qR := int(p.R) / step
@@ -185,7 +185,7 @@ func quantizePixel(p Pixel, levels int) int {
 	return (qR*levels+qG)*levels + qB
 }
 
-// binCenter returns the approximate center value (0..65535) of a bin on each channel.
+// binCenter retourne la couleur centrale d'un bin donné.
 func binCenter(binIdx, levels int) (int, int, int) {
 	step := 65536 / levels
 	plane := levels * levels
@@ -199,6 +199,7 @@ func binCenter(binIdx, levels int) (int, int, int) {
 	return cR, cG, cB
 }
 
+// sqDist calcule la distance au carré entre deux couleurs RGB.
 func sqDist(aR, aG, aB, bR, bG, bB int) int {
 	dR := aR - bR
 	dG := aG - bG
@@ -206,7 +207,7 @@ func sqDist(aR, aG, aB, bR, bG, bB int) int {
 	return dR*dR + dG*dG + dB*dB
 }
 
-// buildSourceBins groups source pixels into bins and keeps their exact values.
+// buildSourceBins classe les pixels sources dans des bins selon leur couleur quantifiée.
 func buildSourceBins(src [][]Pixel, levels int) [][]Pixel {
 	bins := make([][]Pixel, levels*levels*levels)
 	for y := 0; y < len(src); y++ {
@@ -220,7 +221,7 @@ func buildSourceBins(src [][]Pixel, levels int) [][]Pixel {
 	return bins
 }
 
-// buildTargetHistogram counts how many pixels of the target fall into each bin.
+// buildTargetHistogram compte combien de pixels de l'image cible tombent dans chaque bin.
 func buildTargetHistogram(target [][]Pixel, levels int) []int {
 	hist := make([]int, levels*levels*levels)
 	for y := 0; y < len(target); y++ {
@@ -233,9 +234,9 @@ func buildTargetHistogram(target [][]Pixel, levels int) []int {
 	return hist
 }
 
-// popPixel removes and returns one pixel from the requested bin; if empty, it finds
-// the nearest bin (in quantized color space) that still has supply. Returns false if
-// no pixel is available (should not happen when images have identical pixel counts).
+// popPixel enlève et retourne un pixel du bin demandé ; si vide, il cherche
+// le bin le plus proche (dans l'espace couleur quantifié) qui a encore des pixels.
+// Retourne false si aucun pixel n'est disponible (ne devrait pas arriver si les images ont le même nombre de pixels).
 func popPixel(bin int, bins [][]Pixel, levels int) (Pixel, bool) {
 	if len(bins[bin]) > 0 {
 		last := bins[bin][len(bins[bin])-1]
@@ -268,10 +269,10 @@ func popPixel(bin int, bins [][]Pixel, levels int) (Pixel, bool) {
 	return last, true
 }
 
-// remapPixels rearranges source pixels to match the target color distribution.
-// Assumptions: src and target have identical dimensions. No pixel value is changed.
-// levels controls the number of bins per channel (e.g., 16 -> 4096 bins).
-// Pixels are placed in a randomized order to distribute source pixels uniformly.
+// remapPixels réarrange les pixels sources pour matcher la distribution de couleurs de la cible.
+// On doit avoir le même nombre de pixels dans les deux images.
+// levels détermine le nombre de bins par canal (ex: 16 -> 4096 bins).
+// Les pixels sont placés dans un ordre aléatoire pour distribuer uniformément les pixels sources.
 func remapPixels(src [][]Pixel, target [][]Pixel, levels int) [][]Pixel {
 	if len(src) == 0 || len(target) == 0 || len(src) != len(target) || len(src[0]) != len(target[0]) {
 		return nil
