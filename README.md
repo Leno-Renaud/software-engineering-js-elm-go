@@ -1,135 +1,139 @@
-# ELP Projects (Elm • Go • JavaScript)
+# Portfolio Projects – JavaScript, Elm, and Go
 
-This repository groups several small projects built for the **ELP** course, across different languages:
+This repository gathers three academic software projects built in different ecosystems.
+It is designed as a portfolio showcase for a CV, with a focus on game logic, functional UI development, and parallel image processing.
 
-- **Elm**: a Wordle clone (as a browser app)
-- **Go**: image-processing (sequential vs parallel using goroutines) + a TCP client/server demo, where a client sends images and the server executes the processing and returns the image
-- **JavaScript (Node.js)**: an interactive card game (Flip7-style)
+## Repository Overview
 
-## Repository layout
+- **JS/**: Terminal card game implementation in modern JavaScript.
+- **projet-elm/**: Wordle-style game built in Elm.
+- **projet-go/GO/**: Go image-processing experiments (sequential vs parallel), plus client/server mode.
+- **Ressources/**: Visual assets used in this portfolio README.
 
-- `projet-elm/` — Elm Wordle (web)
-- `projet-go/GO/` — Go image processing (demo + client/server)
-- `JS/` — Node.js card game
+## 1) Flip 7 CLI – JavaScript
 
----
+### Project Summary
+`Flip 7 CLI` is a command-line implementation of a multiplayer card game.
+Players draw cards turn by turn, decide whether to continue or stop, manage action cards, and accumulate score until a winner reaches the target.
 
-## 1) Elm — Wordle clone
+### What this project demonstrates
+- Object-oriented game architecture (`Game`, `Round`, `Deck`, `Player`).
+- Turn-based game loop and player interaction in terminal.
+- Input validation and resilient CLI prompts.
+- Structured game logging in JSON for replay/analysis.
 
-**Path:** `projet-elm/`
+### Setup & Run
+#### Prerequisites
+- Node.js 18+ (or newer LTS).
+- npm.
 
-A Wordle-like game implemented with **The Elm Architecture** (Model / View / Update / Subscriptions). The list of valid words is loaded from `words.txt`, and a target word is picked randomly.
-
-### Prerequisites
-
-- Elm
-- Python 3 (to execute the server)
-
-### Build & run
-
-```bash
-cd projet-elm
-elm make src/Main.elm --output=main.js
-python3 -m http.server 8000
-```
-
-Then open: http://localhost:8000
-
-### Useful files
-
-- `projet-elm/src/Main.elm` — game logic + UI
-- `projet-elm/index.html` — loads `main.js`
-- `projet-elm/words.txt` — dictionary of valid 5-letter words
-- `projet-elm/ARCHITECTURE.md` — technical explanation of the code structure
-
----
-
-## 2) JavaScript — Card game
-
-**Path:** `JS/`
-
-A **Node.js** terminal game where 2–8 players play rounds until someone reaches **200 points**. The game is interactive and prompts for player count and names.
-
-### Prerequisites
-
-- Node.js (recommended: a recent LTS, e.g. Node 18+)
-
-### Install & run
-
+#### Installation
 ```bash
 cd JS
 npm install
+```
+
+#### Launch
+```bash
 npm start
 ```
 
-### Notes
-
-- Game entrypoint: `JS/index.js`
-- Logs are written under `JS/logs/`
+#### Output
+- Runtime logs are saved under `JS/logs/`.
 
 ---
 
-## 3) Go — Image processing (sequential vs parallel) + TCP server demo
+## 2) Elm Wordle – Functional Frontend
 
-**Path:** `projet-go/GO/`
+### Project Summary
+`Elm Wordle` is a browser-based clone of Wordle, implemented in Elm.
+It applies functional architecture (model-update-view) and deterministic state transitions for a clean, maintainable game loop.
 
-This Go code explores **parallelization** (goroutines/workers) on image-processing tasks.
+![Elm Wordle visualization](Ressources/elm_wordle.png)
 
-### Prerequisites
+### What this project demonstrates
+- Functional frontend development in Elm 0.19.
+- Unidirectional data flow and typed state management.
+- Clean browser UI behavior with no JavaScript framework dependency.
 
-- Go
+### Setup & Run
+#### Prerequisites
+- Elm 0.19.1.
+- Python 3 (for local static server).
 
-### A) Demo project: sequential vs parallel comparison
+#### Installation / Build
+```bash
+cd projet-elm
+elm make src/Main.elm --output=main.js
+```
 
-**Path:** `projet-go/GO/demo-project/`
+#### Run locally
+```bash
+python -m http.server
+```
 
-Runs an image pipeline and compares sequential vs parallel implementations (and can generate output images such as `out.png`).
+Open: `http://localhost:8000`
 
-Run:
+---
 
+## 3) Go Image Processing – Sequential vs Parallel
+
+### Project Summary
+This Go project compares sequential and parallel implementations for image processing pipelines.
+It includes grayscale transformation, downscaling, and pixel remapping, with performance-oriented experimentation.
+
+![Go remap visualization](Ressources/remap_pixels_image_go.png)
+
+### What this project demonstrates
+- Concurrency and parallel processing in Go.
+- Performance comparison methodology (sequential vs parallel).
+- Matrix-based pixel transformations and output generation.
+- Optional client/server architecture over TCP for remote processing.
+
+### Setup & Run
+#### Prerequisites
+- Go (version compatible with the modules in `projet-go/GO`).
+
+### Option A – Local demo pipeline
 ```bash
 cd projet-go/GO/demo-project
+go mod tidy
 go run .
 ```
 
-Benchmarks:
+Generated outputs are written in `projet-go/GO/demo-project/output/`.
 
-```bash
-go test -bench=. -benchmem
-```
-
-(See the project’s own README for details.)
-
-### B) TCP server/client: remote image processing
-
-- **Server:** `projet-go/GO/server/` (listens on `:9000`)
-- **Client:** `projet-go/GO/client/`
-
-The client sends an image to the server, chooses a processing mode, and receives a processed image back.
-
-Start the server:
-
+### Option B – Client/Server execution
+Start server:
 ```bash
 cd projet-go/GO/server
+go mod tidy
 go run .
 ```
 
-In another terminal, run the client:
-
+In another terminal, start client:
 ```bash
 cd projet-go/GO/client
+go mod tidy
 go run .
 ```
 
-The client will prompt for:
-- server IP
-- input image path
-- processing choice (B&W / downscale / remap)
+The client asks for:
+- Server IP address
+- Input image path
+- Processing mode (BW / downscale / remap)
 
-Output is written under `projet-go/GO/client/output/`.
+Result image is saved in `projet-go/GO/client/output/out.jpg`.
 
 ---
 
-## Status / scope
+## Skills Highlighted
 
-These are educational projects; the focus is clarity and experimentation (architecture in Elm, concurrency/parallelism in Go, and a CLI game in Node.js).
+- **Programming languages**: JavaScript, Elm, Go.
+- **Software design**: modular architecture, separation of concerns, reusable components.
+- **Concurrency**: goroutines and multi-core processing strategies.
+- **Tooling & execution**: CLI workflows, local servers, module/package management.
+
+## Author
+
+Portfolio repository prepared for CV and GitHub presentation.
